@@ -19,12 +19,25 @@ public interface ChatContract {
         void onGetMessagesSuccess(Chat chat);
 
         void onGetMessagesFailure(String message);
+
+        void onSendAvatarSuccess();
+
+        void onSendAvatarFailure(String message);
+
+
+        void onGetAvatarSuccess(String userUid, String imageUrl);
+
+        void onGetAvatarFailure(String message);
     }
 
     interface Presenter {
         void sendMessage(Context context, Chat chat, String receiverFirebaseToken);
 
         void getMessage(String senderUid, String receiverUid);
+
+        void sendAvatar(Context context, Chat chat, String receiverFirebaseToken);
+
+        void getAvatar(String userUid, String imageUrl);
     }
 
     interface Interactor {
@@ -43,5 +56,17 @@ public interface ChatContract {
         void onGetMessagesSuccess(Chat chat);
 
         void onGetMessagesFailure(String message);
+    }
+
+    interface OnSendAvatarListener{
+        void onSendAvatarSuccess();
+
+        void onSendAvatarFailure(String message);
+    }
+
+    interface OnGetAvatarListener{
+        void onGetAvatarSuccess(String userUid, String imageUrl);
+
+        void onGetAvatarFailure(String message);
     }
 }

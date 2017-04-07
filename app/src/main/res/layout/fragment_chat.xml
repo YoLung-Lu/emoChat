@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,14 +8,38 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/edit_text_message"
+        android:layout_height="0dp"
+        app:layout_heightPercent="50%"
+        android:layout_alignParentTop="true"
         app:layoutManager="LinearLayoutManager" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/avatarArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="40%"
+        android:layout_below="@+id/recycler_view_chat">
+        <ImageView
+            android:id="@+id/otherAvatarIV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="50%"
+            android:src="@drawable/place_holder"/>
+        <ImageView
+            android:id="@+id/myAvatarIV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_widthPercent="50%"
+            android:layout_toRightOf="@+id/otherAvatarIV"
+            android:src="@drawable/place_holder"/>
+
+    </android.support.percent.PercentRelativeLayout>
 
     <EditText
         android:id="@+id/edit_text_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="10%"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_small"
         android:background="@drawable/rounded_rect_bg"
@@ -24,4 +49,4 @@
         android:maxLines="1"
         android:padding="@dimen/padding_small" />
 
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

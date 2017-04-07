@@ -23,8 +23,13 @@ import com.google.firebase.database.ValueEventListener;
 public class ChatInteractor implements ChatContract.Interactor {
     private static final String TAG = "ChatInteractor";
 
+    public static final String TYPE_MESSAGE = "TypeMessage";
+    public static final String TYPE_AVATAR = "TypeAvatar";
+
     private ChatContract.OnSendMessageListener mOnSendMessageListener;
+    private ChatContract.OnSendAvatarListener mOnSendAvatarListener;
     private ChatContract.OnGetMessagesListener mOnGetMessagesListener;
+    private ChatContract.OnGetAvatarListener mOnGetAvatarListener;
 
     public ChatInteractor(ChatContract.OnSendMessageListener onSendMessageListener) {
         this.mOnSendMessageListener = onSendMessageListener;
@@ -35,9 +40,13 @@ public class ChatInteractor implements ChatContract.Interactor {
     }
 
     public ChatInteractor(ChatContract.OnSendMessageListener onSendMessageListener,
-                          ChatContract.OnGetMessagesListener onGetMessagesListener) {
+                          ChatContract.OnSendAvatarListener onSendAvatarListener,
+                          ChatContract.OnGetMessagesListener onGetMessagesListener,
+                          ChatContract.OnGetAvatarListener onGetAvatarListener) {
         this.mOnSendMessageListener = onSendMessageListener;
+        this.mOnSendAvatarListener = onSendAvatarListener;
         this.mOnGetMessagesListener = onGetMessagesListener;
+        this.mOnGetAvatarListener = onGetAvatarListener;
     }
 
     @Override
@@ -77,21 +86,6 @@ public class ChatInteractor implements ChatContract.Interactor {
         });
     }
 
-    private void sendPushNotificationToReceiver(String username,
-                                                String message,
-                                                String uid,
-                                                String firebaseToken,
-                                                String receiverFirebaseToken) {
-        FcmNotificationBuilder.initialize()
-                .title(username)
-                .message(message)
-                .username(username)
-                .uid(uid)
-                .firebaseToken(firebaseToken)
-                .receiverFirebaseToken(receiverFirebaseToken)
-                .send();
-    }
-
     @Override
     public void getMessageFromFirebaseUser(String senderUid, String receiverUid) {
         final String room_type_1 = senderUid + "_" + receiverUid;
@@ -110,8 +104,14 @@ public class ChatInteractor implements ChatContract.Interactor {
                             .child(room_type_1).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Chat chat = dataSnapshot.getValue(Chat.class);
-                            mOnGetMessagesListener.onGetMessagesSuccess(chat);
+                            if(dataSnapshot.child("image_url").exists()){
+                                String userUid = dataSnapshot.child("user_uid").getValue(String.class);
+                                String imageUrl = dataSnapshot.child("image_url").getValue(String.class);
+                                mOnGetAvatarListener.onGetAvatarSuccess(userUid, imageUrl);
+                            }else{
+                                Chat chat = dataSnapshot.getValue(Chat.class);
+                                mOnGetMessagesListener.onGetMessagesSuccess(chat);
+                            }
                         }
 
                         @Override
@@ -142,8 +142,14 @@ public class ChatInteractor implements ChatContract.Interactor {
                             .child(room_type_2).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Chat chat = dataSnapshot.getValue(Chat.class);
-                            mOnGetMessagesListener.onGetMessagesSuccess(chat);
+                            if(dataSnapshot.child("image_url").exists()){
+                                String userUid = dataSnapshot.child("user_uid").getValue(String.class);
+                                String imageUrl = dataSnapshot.child("image_url").getValue(String.class);
+                                mOnGetAvatarListener.onGetAvatarSuccess(userUid, imageUrl);
+                            }else{
+                                Chat chat = dataSnapshot.getValue(Chat.class);
+                                mOnGetMessagesListener.onGetMessagesSuccess(chat);
+                            }
                         }
 
                         @Override
@@ -177,4 +183,25 @@ public class ChatInteractor implements ChatContract.Interactor {
             }
         });
     }
+
+
+
+
+
+
+    private void sendPushNotificationToReceiver(String username,
+                                                String message,
+                                                String uid,
+                                                String firebaseToken,
+                                                String receiverFirebaseToken) {
+        FcmNotificationBuilder.initialize()
+                .title(username)
+                .message(message)
+                .username(username)
+                .uid(uid)
+                .firebaseToken(firebaseToken)
+                .receiverFirebaseToken(receiverFirebaseToken)
+                .send();
+    }
+
 }

@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crazyhitty.chdev.ks.firebasechat.R;
 import com.crazyhitty.chdev.ks.firebasechat.core.chat.ChatContract;
 import com.crazyhitty.chdev.ks.firebasechat.core.chat.ChatPresenter;
@@ -37,6 +41,8 @@ import java.util.ArrayList;
 public class ChatFragment extends Fragment implements ChatContract.View, TextView.OnEditorActionListener {
     private RecyclerView mRecyclerViewChat;
     private EditText mETxtMessage;
+    private ImageView myAvatarIV;
+    private ImageView otherAvatarIV;
 
     private ProgressDialog mProgressDialog;
 
@@ -79,6 +85,8 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
     private void bindViews(View view) {
         mRecyclerViewChat = (RecyclerView) view.findViewById(R.id.recycler_view_chat);
         mETxtMessage = (EditText) view.findViewById(R.id.edit_text_message);
+        myAvatarIV = (ImageView) view.findViewById(R.id.myAvatarIV);
+        otherAvatarIV = (ImageView) view.findViewById(R.id.otherAvatarIV);
     }
 
     @Override
@@ -121,7 +129,8 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
                 senderUid,
                 receiverUid,
                 message,
-                System.currentTimeMillis());
+                System.currentTimeMillis()
+                );
         mChatPresenter.sendMessage(getActivity().getApplicationContext(),
                 chat,
                 receiverFirebaseToken);
@@ -144,6 +153,31 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
             mChatRecyclerAdapter = new ChatRecyclerAdapter(new ArrayList<Chat>());
             mRecyclerViewChat.setAdapter(mChatRecyclerAdapter);
         }
+
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+/*
+        if(chat.emotionUrl != null) {
+            if (chat.senderUid.equals(myUid)) {
+                Glide.with(this)
+                        .load(chat.emotionUrl)
+                        .priority(Priority.IMMEDIATE)
+                        .skipMemoryCache(true)
+                        .crossFade()
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(myAvatarIV);
+            } else {
+                Glide.with(this)
+                        .load(chat.emotionUrl)
+                        .priority(Priority.IMMEDIATE)
+                        .skipMemoryCache(true)
+                        .crossFade()
+                        .dontTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(otherAvatarIV);
+            }
+        }
+*/
         mChatRecyclerAdapter.add(chat);
         mRecyclerViewChat.smoothScrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
     }
@@ -151,6 +185,47 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
     @Override
     public void onGetMessagesFailure(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    //FIXME: !!!about Avatar!!!
+    @Override
+    public void onSendAvatarSuccess() {
+
+    }
+
+    @Override
+    public void onSendAvatarFailure(String message) {
+
+    }
+
+    @Override
+    public void onGetAvatarSuccess(String userUid, String imageUrl) {
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (userUid.equals(myUid)) {
+            Glide.with(this)
+                    .load(imageUrl)
+                    .priority(Priority.IMMEDIATE)
+                    .skipMemoryCache(true)
+                    .crossFade()
+                    .dontTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(myAvatarIV);
+        } else {
+            Glide.with(this)
+                    .load(imageUrl)
+                    .priority(Priority.IMMEDIATE)
+                    .skipMemoryCache(true)
+                    .crossFade()
+                    .dontTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(otherAvatarIV);
+        }
+    }
+
+    @Override
+    public void onGetAvatarFailure(String message) {
+
     }
 
     @Subscribe
