@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1070349274447",
+    "firebase_url": "https://emochat-163808.firebaseio.com",
+    "project_id": "emochat-163808",
+    "storage_bucket": "emochat-163808.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070349274447:android:932399bebd89bff2",
+        "android_client_info": {
+          "package_name": "com.crazyhitty.chdev.ks.firebasechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070349274447-ic529bvgg85v1bivonq7j0g8e3in5r4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crazyhitty.chdev.ks.firebasechat",
+            "certificate_hash": "e7845e98be118808b9fe00db6f9d65ab71f91fad"
+          }
+        },
+        {
+          "client_id": "1070349274447-hrn2tlvqkktf9005n8og749do0gkvmrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1SInj_m73O5FsAFHH4imXBMcWRAEVI3Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070349274447-hrn2tlvqkktf9005n8og749do0gkvmrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
