@@ -20,8 +20,8 @@ import java.util.List;
  */
 
 public class ChatRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int VIEW_TYPE_ME = 1;
-    private static final int VIEW_TYPE_OTHER = 2;
+    public static final int VIEW_TYPE_ME = 1;
+    public static final int VIEW_TYPE_OTHER = 2;
 
     private List<Chat> mChats;
 

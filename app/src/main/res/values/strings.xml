@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">FirebaseChat</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">EmoChat</string>
     <string name="action_settings">Settings</string>
     <string name="email">Email Id</string>
     <string name="password">Password</string>
@@ -20,4 +20,7 @@
     <string name="logout">Logout</string>
     <string name="are_you_sure">Are you sure ?</string>
     <string name="cancel">Cancel</string>
+
+
+    <string name="file_provider_authority" tools:ignore="MissingTranslation">com.crazyhitty.chdev.ks.firebasechat</string>
 </resources>

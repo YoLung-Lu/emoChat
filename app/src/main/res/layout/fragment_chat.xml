@@ -4,12 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="100%"
+        app:layout_widthPercent="50%"
+        android:layout_alignParentLeft="true"
+        android:background="#72587F"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="100%"
+        app:layout_widthPercent="50%"
+        android:layout_alignParentRight="true"
+        android:background="@color/blue_50"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="50%"
+        app:layout_heightPercent="65%"
         android:layout_alignParentTop="true"
         app:layoutManager="LinearLayoutManager" />
 
@@ -17,7 +30,7 @@
         android:id="@+id/avatarArea"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="40%"
+        app:layout_heightPercent="25%"
         android:layout_below="@+id/recycler_view_chat">
         <ImageView
             android:id="@+id/otherAvatarIV"
@@ -31,22 +44,35 @@
             android:layout_height="match_parent"
             app:layout_widthPercent="50%"
             android:layout_toRightOf="@+id/otherAvatarIV"
-            android:src="@drawable/place_holder"/>
+            android:src="@drawable/place_holder" />
 
     </android.support.percent.PercentRelativeLayout>
 
-    <EditText
-        android:id="@+id/edit_text_message"
+    <LinearLayout
+        android:id="@+id/bottomArea"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="10%"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_small"
-        android:background="@drawable/rounded_rect_bg"
-        android:hint="@string/type_a_message"
-        android:imeOptions="actionSend"
-        android:inputType="text"
-        android:maxLines="1"
-        android:padding="@dimen/padding_small" />
-
+        android:padding="@dimen/padding_small" >
+        <Button
+            android:id="@+id/uploadPicBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="Pic"
+            android:textSize="18sp"
+            android:background="@color/amber_100"/>
+        <EditText
+            android:id="@+id/edit_text_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_rect_bg"
+            android:hint="@string/type_a_message"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </LinearLayout>
 </android.support.percent.PercentRelativeLayout>

@@ -31,7 +31,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         bindViews();
-        init();
+
+        if(savedInstanceState == null) {
+            init();
+        }
     }
 
     private void bindViews() {
