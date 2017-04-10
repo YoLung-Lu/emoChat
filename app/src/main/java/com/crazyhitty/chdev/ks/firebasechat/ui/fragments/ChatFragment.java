@@ -278,23 +278,27 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
                                  final Intent data) {
         switch (requestCode) {
             case REQ_TAKE_PHOTO:
-            default:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                if(data != null) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        String senderUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            String senderUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        final File file = new File( data.getData().getPath() );
-                        try {
-                            //UploadImageUtil.uploadPhoto(file, "YoLung", "YoLung");
-                            UploadImageUtil.upload(file, mChatId, senderUid);
-                        } catch (Exception e){
-                            e.printStackTrace();
+                            final File file = new File(data.getData().getPath());
+                            try {
+                                //UploadImageUtil.uploadPhoto(file, "YoLung", "YoLung");
+                                UploadImageUtil.upload(file, mChatId, senderUid);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            //
                         }
-                        //
-                    }
-                }).start();
+                    }).start();
+                    break;
+                }
+            default:
+                break;
         }
     }
 }
