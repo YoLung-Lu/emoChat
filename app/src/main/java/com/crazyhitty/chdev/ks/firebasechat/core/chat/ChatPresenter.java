@@ -44,6 +44,11 @@ public class ChatPresenter implements ChatContract.Presenter,
     }
 
     @Override
+    public void removeListener() {
+        mChatInteractor.removeListener();
+    }
+
+    @Override
     public void onSendMessageSuccess() {
         mView.onSendMessageSuccess();
     }

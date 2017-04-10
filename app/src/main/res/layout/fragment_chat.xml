@@ -55,21 +55,29 @@
         android:layout_height="0dp"
         app:layout_heightPercent="10%"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
         android:padding="@dimen/padding_small" >
-        <Button
+        <ImageButton
             android:id="@+id/uploadPicBtn"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_rect_bg_orange"
+            android:src="@drawable/selfie"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_vertical"
             android:gravity="center"
+            android:padding="6dp"
             android:text="Pic"
             android:textSize="18sp"
-            android:background="@color/amber_100"/>
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/edit_text_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_rect_bg"
+            android:background="@drawable/rounded_rect_bg_white"
+            android:padding="2dp"
+            android:layout_marginLeft="8dp"
             android:hint="@string/type_a_message"
             android:imeOptions="actionSend"
             android:inputType="text"

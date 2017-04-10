@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
     private EditText mETxtMessage;
     private ImageView myAvatarIV;
     private ImageView otherAvatarIV;
-    private Button uploadPicBtn;
+    private ImageButton uploadPicBtn;
 
     private ProgressDialog mProgressDialog;
 
@@ -70,9 +71,9 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
             }
             Glide.with(getActivity())
                     .load(mOtherImageUrl)
+                    .placeholder(otherAvatarIV.getDrawable())
                     .priority(Priority.IMMEDIATE)
                     .skipMemoryCache(false)
-                    .crossFade()
                     .dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(otherAvatarIV);
@@ -88,9 +89,9 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
             }
             Glide.with(getActivity())
                     .load(mMyImageUrl)
+                    .placeholder(myAvatarIV.getDrawable())
                     .priority(Priority.IMMEDIATE)
                     .skipMemoryCache(false)
-                    .crossFade()
                     .dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(myAvatarIV);
@@ -119,6 +120,10 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        if(mHandler != null){
+            mHandler.removeCallbacks(mLoadMeImageTask);
+            mHandler.removeCallbacks(mLoadingImageTask);
+        }
     }
 
     @Nullable
@@ -137,7 +142,7 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
         mETxtMessage = (EditText) view.findViewById(R.id.edit_text_message);
         myAvatarIV = (ImageView) view.findViewById(R.id.myAvatarIV);
         otherAvatarIV = (ImageView) view.findViewById(R.id.otherAvatarIV);
-        uploadPicBtn = (Button) view.findViewById(R.id.uploadPicBtn);
+        uploadPicBtn = (ImageButton) view.findViewById(R.id.uploadPicBtn);
         uploadPicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +171,7 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
         mProgressDialog.setTitle(getString(R.string.loading));
         mProgressDialog.setMessage(getString(R.string.please_wait));
         mProgressDialog.setIndeterminate(true);
+        mProgressDialog.show();
 
         mETxtMessage.setOnEditorActionListener(this);
 
@@ -221,9 +227,8 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
         if (mChatRecyclerAdapter == null) {
             mChatRecyclerAdapter = new ChatRecyclerAdapter(new ArrayList<Chat>());
             mRecyclerViewChat.setAdapter(mChatRecyclerAdapter);
+            mProgressDialog.dismiss();
         }
-
-        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mChatRecyclerAdapter.add(chat);
         mRecyclerViewChat.smoothScrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
@@ -300,5 +305,11 @@ public class ChatFragment extends Fragment implements ChatContract.View, TextVie
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mChatPresenter.removeListener();
     }
 }

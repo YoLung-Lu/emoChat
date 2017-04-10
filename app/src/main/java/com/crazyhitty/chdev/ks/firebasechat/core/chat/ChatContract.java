@@ -38,12 +38,16 @@ public interface ChatContract {
         void sendAvatar(Context context, Chat chat, String receiverFirebaseToken);
 
         void getAvatar(String userUid, String imageUrl);
+
+        void removeListener();
     }
 
     interface Interactor {
         void sendMessageToFirebaseUser(Context context, Chat chat, String receiverFirebaseToken);
 
         void getMessageFromFirebaseUser(String senderUid, String receiverUid);
+
+        void removeListener();
     }
 
     interface OnSendMessageListener {
